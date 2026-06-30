@@ -6,8 +6,14 @@
 
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import pkg from "@next/env";
+const { loadEnvConfig } = pkg;
 
-const MONGODB_URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017/SeatSpotDB";
+// Load environment variables (like .env.local)
+loadEnvConfig(process.cwd());
+
+const MONGODB_URI = process.env.MONGODB_URI!;
+
 
 // ── Inline schemas (avoids next.js module resolution issues in ts-node) ───────
 
