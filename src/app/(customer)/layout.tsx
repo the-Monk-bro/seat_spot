@@ -13,10 +13,10 @@ export default async function CustomerLayout({ children }: { children: React.Rea
   if (!session || session.user.role !== "CUSTOMER") redirect("/login");
 
   return (
-    <div className="flex min-h-screen bg-muted/20">
+    <div className="flex min-h-screen bg-[#FAFAF8]">
       <Sidebar navItems={navItems} role="CUSTOMER" />
       <main className="flex-1 overflow-auto">
-        <div className="container max-w-5xl mx-auto px-6 py-8">{children}</div>
+        <div className="container max-w-5xl mx-auto px-8 py-10">{children}</div>
       </main>
       <Toaster richColors position="top-right" />
     </div>

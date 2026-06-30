@@ -6,31 +6,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 0 0% 98%;
+    --foreground: 170 30% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 170 30% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 24 95% 53%;
+    --popover-foreground: 170 30% 10%;
+    --primary: 173 82% 25%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 24 95% 96%;
-    --accent-foreground: 24 95% 40%;
+    --secondary: 160 20% 95%;
+    --secondary-foreground: 170 30% 10%;
+    --muted: 160 15% 95%;
+    --muted-foreground: 170 15% 45%;
+    --accent: 45 70% 88%;
+    --accent-foreground: 40 60% 30%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 24 95% 53%;
-    --radius: 0.75rem;
+    --border: 160 15% 88%;
+    --input: 160 15% 88%;
+    --ring: 173 82% 25%;
+    --radius: 0.875rem;
 
     /* Brand colours */
-    --brand-orange: 24 95% 53%;
-    --brand-orange-light: 24 95% 96%;
-    --brand-dark: 222 47% 11%;
+    --brand-emerald: 173 82% 25%;
+    --brand-emerald-light: 160 40% 95%;
+    --brand-gold: 45 70% 52%;
+    --brand-gold-light: 45 70% 88%;
+    --brand-dark: 170 30% 10%;
   }
 
   * {
@@ -69,29 +71,34 @@
 
 /* Status badge colours */
 .badge-pending {
-  background-color: hsl(48 96% 89%);
-  color: hsl(32 81% 29%);
+  background-color: hsl(45 70% 92%);
+  color: hsl(40 60% 30%);
 }
 .badge-approved {
-  background-color: hsl(141 76% 90%);
-  color: hsl(142 72% 22%);
+  background-color: hsl(160 50% 90%);
+  color: hsl(173 82% 20%);
 }
 .badge-rejected {
   background-color: hsl(0 84% 94%);
   color: hsl(0 72% 40%);
 }
 .badge-confirmed {
-  background-color: hsl(221 83% 91%);
-  color: hsl(221 83% 30%);
+  background-color: hsl(160 50% 90%);
+  color: hsl(173 82% 20%);
 }
 .badge-cancelled {
   background-color: hsl(0 84% 94%);
   color: hsl(0 72% 40%);
 }
 
+/* Playfair Display utility */
+.font-playfair {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-playfair);
+  --font-sans: var(--font-inter);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -132,39 +139,40 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Brand: SeatSpot — orange primary, light-only theme */
+/* SeatSpot — Emerald & Gold brand theme */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0.02 260);
+  --background: oklch(0.985 0.005 160);
+  --foreground: oklch(0.18 0.03 170);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0.02 260);
+  --card-foreground: oklch(0.18 0.03 170);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0.02 260);
-  /* Orange brand primary */
-  --primary: oklch(0.65 0.2 42);
+  --popover-foreground: oklch(0.18 0.03 170);
+  /* Emerald brand primary #0F766E */
+  --primary: oklch(0.48 0.12 176);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0.02 60);
-  --accent-foreground: oklch(0.45 0.2 42);
+  --secondary: oklch(0.96 0.01 160);
+  --secondary-foreground: oklch(0.18 0.03 170);
+  --muted: oklch(0.96 0.008 160);
+  --muted-foreground: oklch(0.55 0.02 170);
+  /* Warm gold accent #D4AF37 */
+  --accent: oklch(0.9 0.07 80);
+  --accent-foreground: oklch(0.45 0.1 80);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.65 0.2 42);
-  --chart-1: oklch(0.65 0.2 42);
-  --chart-2: oklch(0.55 0.15 200);
-  --chart-3: oklch(0.5 0.15 270);
-  --chart-4: oklch(0.6 0.18 120);
-  --chart-5: oklch(0.45 0.2 330);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0.02 260);
-  --sidebar-primary: oklch(0.65 0.2 42);
+  --border: oklch(0.9 0.01 160);
+  --input: oklch(0.9 0.01 160);
+  --ring: oklch(0.48 0.12 176);
+  --chart-1: oklch(0.48 0.12 176);
+  --chart-2: oklch(0.65 0.12 80);
+  --chart-3: oklch(0.5 0.1 270);
+  --chart-4: oklch(0.6 0.15 120);
+  --chart-5: oklch(0.45 0.15 330);
+  --radius: 0.875rem;
+  --sidebar: oklch(0.975 0.006 160);
+  --sidebar-foreground: oklch(0.18 0.03 170);
+  --sidebar-primary: oklch(0.48 0.12 176);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.97 0.02 60);
-  --sidebar-accent-foreground: oklch(0.45 0.2 42);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.65 0.2 42);
+  --sidebar-accent: oklch(0.93 0.04 160);
+  --sidebar-accent-foreground: oklch(0.35 0.1 176);
+  --sidebar-border: oklch(0.9 0.01 160);
+  --sidebar-ring: oklch(0.48 0.12 176);
 }

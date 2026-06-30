@@ -37,20 +37,20 @@ export default async function OwnerDashboard() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h1 className="text-2xl font-bold">Owner Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Manage your restaurants and reservations.</p>
+        <h1 className="font-playfair text-3xl font-bold text-foreground">Owner Dashboard</h1>
+        <p className="text-muted-foreground mt-1.5">Manage your restaurants and reservations.</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl border bg-white p-5">
+          <div key={label} className="rounded-2xl border border-border/60 bg-white p-5 shadow-sm hover:shadow-md transition-shadow">
             <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl mb-3 ${color}`}>
               <Icon className="h-5 w-5" />
             </div>
-            <div className="text-2xl font-bold">{value}</div>
+            <div className="text-2xl font-bold font-playfair">{value}</div>
             <div className="text-xs text-muted-foreground mt-0.5">{label}</div>
           </div>
         ))}
@@ -58,20 +58,20 @@ export default async function OwnerDashboard() {
 
       {/* Quick links */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Link href="/owner/restaurants" className="group rounded-xl border bg-white p-5 hover:shadow-sm hover:border-primary/30 transition-all flex items-center justify-between">
+        <Link href="/owner/restaurants" className="group rounded-2xl border border-border/60 bg-white p-6 hover:shadow-md hover:border-primary/30 transition-all duration-200 flex items-center justify-between">
           <div>
             <h3 className="font-semibold group-hover:text-primary transition-colors">Manage Restaurants</h3>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-1.5">
               {pending > 0 ? `${pending} awaiting approval` : "All up to date"}
             </p>
           </div>
           <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
         </Link>
 
-        <Link href="/owner/reservations" className="group rounded-xl border bg-white p-5 hover:shadow-sm hover:border-primary/30 transition-all flex items-center justify-between">
+        <Link href="/owner/reservations" className="group rounded-2xl border border-border/60 bg-white p-6 hover:shadow-md hover:border-primary/30 transition-all duration-200 flex items-center justify-between">
           <div>
             <h3 className="font-semibold group-hover:text-primary transition-colors">View Reservations</h3>
-            <p className="text-sm text-muted-foreground mt-1">{upcomingReservations} upcoming</p>
+            <p className="text-sm text-muted-foreground mt-1.5">{upcomingReservations} upcoming</p>
           </div>
           <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
         </Link>

@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import type { Metadata } from "next";
 
 const schema = z.object({
   email: z.string().email("Invalid email"),
@@ -51,25 +50,27 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-md">
-      <div className="rounded-2xl border bg-white shadow-xl shadow-black/5 p-8">
+    <div className="w-full max-w-md mx-auto">
+      <div className="rounded-2xl border border-border/60 bg-white shadow-xl shadow-black/5 p-10">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 font-bold text-xl mb-4">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+        <div className="text-center mb-9">
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-5">
+            <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-primary text-primary-foreground shadow-sm">
               <UtensilsCrossed className="h-4.5 w-4.5" />
             </span>
-            Seat<span className="text-primary">Spot</span>
+            <span className="font-playfair font-bold text-2xl tracking-tight">
+              Seat<span className="text-primary">Spot</span>
+            </span>
           </Link>
-          <h1 className="text-2xl font-bold">Welcome back</h1>
-          <p className="text-sm text-muted-foreground mt-1">Sign in to your account</p>
+          <h1 className="font-playfair text-2xl font-bold text-foreground">Welcome back</h1>
+          <p className="text-sm text-muted-foreground mt-1.5">Sign in to your account</p>
         </div>
 
         {/* Google Sign-in */}
         <Button
           type="button"
           variant="outline"
-          className="w-full h-11 gap-3 mb-4"
+          className="w-full h-12 gap-3 mb-5 rounded-xl border-border/70 hover:border-primary/40 hover:bg-primary/4 transition-all"
           onClick={handleGoogleSignIn}
           disabled={googleLoading}
         >
@@ -86,35 +87,51 @@ export default function LoginPage() {
           Continue with Google
         </Button>
 
-        <div className="relative my-4">
+        <div className="relative my-5">
           <Separator />
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-xs text-muted-foreground">
-            or
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-xs text-muted-foreground">
+            or continue with email
           </span>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="you@example.com" {...register("email")} />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              className="h-12 rounded-xl border-border/70 focus-visible:ring-primary/30"
+              {...register("email")}
+            />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" placeholder="••••••••" {...register("password")} />
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              className="h-12 rounded-xl border-border/70 focus-visible:ring-primary/30"
+              {...register("password")}
+            />
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
 
-          <Button type="submit" className="w-full h-11" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="w-full h-12 rounded-xl shadow-sm hover:shadow-md transition-all"
+            disabled={isSubmitting}
+          >
             {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {isSubmitting ? "Signing in…" : "Sign In"}
           </Button>
         </form>
 
-        <p className="text-center text-sm text-muted-foreground mt-6">
+        <p className="text-center text-sm text-muted-foreground mt-7">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-primary font-medium hover:underline">
+          <Link href="/register" className="text-primary font-semibold hover:underline underline-offset-4">
             Create one
           </Link>
         </p>

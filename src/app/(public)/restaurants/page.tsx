@@ -54,11 +54,11 @@ async function getCuisines(): Promise<string[]> {
 
 function RestaurantGridSkeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="rounded-xl overflow-hidden border bg-white">
-          <Skeleton className="aspect-video w-full" />
-          <div className="p-4 space-y-2">
+        <div key={i} className="rounded-2xl overflow-hidden border border-border/60 bg-white">
+          <Skeleton className="aspect-[4/3] w-full" />
+          <div className="p-5 space-y-3">
             <Skeleton className="h-5 w-3/4" />
             <Skeleton className="h-4 w-1/2" />
             <Skeleton className="h-3 w-full" />
@@ -82,21 +82,22 @@ export default async function RestaurantsPage({
   ]);
 
   return (
-    <div className="min-h-screen bg-muted/20">
+    <div className="min-h-screen bg-[#FAFAF8]">
       {/* Page header */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-6">Find a Restaurant</h1>
+      <div className="bg-white border-b border-border/60 shadow-[0_1px_12px_0_rgba(15,118,110,0.05)]">
+        <div className="container mx-auto px-6 py-10">
+          <p className="text-xs font-semibold tracking-[0.15em] uppercase text-primary/70 mb-2">Explore</p>
+          <h1 className="font-playfair text-4xl font-bold text-foreground mb-8">Find a Restaurant</h1>
 
           <form className="flex flex-wrap gap-3">
             {/* Search */}
-            <div className="relative flex-1 min-w-48">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="relative flex-1 min-w-52">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 name="q"
                 defaultValue={params.q}
                 placeholder="Search restaurants…"
-                className="w-full pl-9 pr-4 h-10 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full pl-11 pr-4 h-12 rounded-full border border-border/70 bg-[#FAFAF8] text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all placeholder:text-muted-foreground/60"
               />
             </div>
 
@@ -104,7 +105,7 @@ export default async function RestaurantsPage({
             <select
               name="city"
               defaultValue={params.city ?? ""}
-              className="h-10 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring min-w-36"
+              className="h-12 rounded-full border border-border/70 bg-[#FAFAF8] px-5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 min-w-36 transition-all"
             >
               <option value="">All Cities</option>
               {cities.map((c) => (
@@ -116,7 +117,7 @@ export default async function RestaurantsPage({
             <select
               name="cuisine"
               defaultValue={params.cuisine ?? ""}
-              className="h-10 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring min-w-40"
+              className="h-12 rounded-full border border-border/70 bg-[#FAFAF8] px-5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 min-w-40 transition-all"
             >
               <option value="">All Cuisines</option>
               {cuisines.map((c) => (
@@ -126,7 +127,7 @@ export default async function RestaurantsPage({
 
             <button
               type="submit"
-              className="h-10 px-5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+              className="h-12 px-7 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
             >
               Search
             </button>
@@ -135,20 +136,22 @@ export default async function RestaurantsPage({
       </div>
 
       {/* Results */}
-      <div className="container mx-auto px-4 py-10">
+      <div className="container mx-auto px-6 py-12">
         {restaurants.length === 0 ? (
-          <div className="text-center py-20">
-            <Search className="h-12 w-12 mx-auto text-muted-foreground/40 mb-4" />
-            <h2 className="text-xl font-semibold mb-2">No restaurants found</h2>
+          <div className="text-center py-24">
+            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-white border border-border/60 shadow-sm">
+              <Search className="h-8 w-8 text-muted-foreground/40" />
+            </div>
+            <h2 className="font-playfair text-2xl font-bold mb-2">No restaurants found</h2>
             <p className="text-muted-foreground">Try adjusting your filters</p>
           </div>
         ) : (
           <>
-            <p className="text-sm text-muted-foreground mb-6">
-              {restaurants.length} restaurant{restaurants.length !== 1 ? "s" : ""} found
+            <p className="text-sm text-muted-foreground mb-8 font-medium">
+              <span className="text-primary font-semibold">{restaurants.length}</span> restaurant{restaurants.length !== 1 ? "s" : ""} found
             </p>
             <Suspense fallback={<RestaurantGridSkeleton />}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
                 {restaurants.map((r) => (
                   <RestaurantCard key={r._id} restaurant={r} />
                 ))}

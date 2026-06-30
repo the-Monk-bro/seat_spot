@@ -68,24 +68,26 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="w-full max-w-md">
-      <div className="rounded-2xl border bg-white shadow-xl shadow-black/5 p-8">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 font-bold text-xl mb-4">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+    <div className="w-full max-w-md mx-auto">
+      <div className="rounded-2xl border border-border/60 bg-white shadow-xl shadow-black/5 p-10">
+        <div className="text-center mb-9">
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-5">
+            <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-primary text-primary-foreground shadow-sm">
               <UtensilsCrossed className="h-4.5 w-4.5" />
             </span>
-            Seat<span className="text-primary">Spot</span>
+            <span className="font-playfair font-bold text-2xl tracking-tight">
+              Seat<span className="text-primary">Spot</span>
+            </span>
           </Link>
-          <h1 className="text-2xl font-bold">Create an account</h1>
-          <p className="text-sm text-muted-foreground mt-1">Join SeatSpot today</p>
+          <h1 className="font-playfair text-2xl font-bold text-foreground">Create an account</h1>
+          <p className="text-sm text-muted-foreground mt-1.5">Join SeatSpot today</p>
         </div>
 
         {/* Google */}
         <Button
           type="button"
           variant="outline"
-          className="w-full h-11 gap-3 mb-4"
+          className="w-full h-12 gap-3 mb-5 rounded-xl border-border/70 hover:border-primary/40 hover:bg-primary/4 transition-all"
           onClick={handleGoogleSignIn}
           disabled={googleLoading}
         >
@@ -102,22 +104,22 @@ export default function RegisterPage() {
           Continue with Google
         </Button>
 
-        <div className="relative my-4">
+        <div className="relative my-5">
           <Separator />
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-xs text-muted-foreground">
-            or
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-xs text-muted-foreground">
+            or continue with email
           </span>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Role */}
-          <div className="space-y-1.5">
-            <Label>I am a…</Label>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">I am a…</Label>
             <div className="grid grid-cols-2 gap-2">
               {(["CUSTOMER", "OWNER"] as const).map((r) => (
                 <label
                   key={r}
-                  className="relative flex cursor-pointer rounded-lg border p-3 text-center text-sm font-medium has-[:checked]:border-primary has-[:checked]:bg-primary/5 has-[:checked]:text-primary transition-colors"
+                  className="relative flex cursor-pointer rounded-xl border border-border/70 p-3 text-center text-sm font-medium has-[:checked]:border-primary has-[:checked]:bg-primary/8 has-[:checked]:text-primary transition-all"
                 >
                   <input type="radio" value={r} {...register("role")} className="sr-only" />
                   {r === "CUSTOMER" ? "🍽️ Diner" : "🏪 Restaurant Owner"}
@@ -126,41 +128,41 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="name">Full Name</Label>
-            <Input id="name" placeholder="John Doe" {...register("name")} />
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+            <Input id="name" placeholder="John Doe" className="h-12 rounded-xl border-border/70 focus-visible:ring-primary/30" {...register("name")} />
             {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
           </div>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="you@example.com" {...register("email")} />
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+            <Input id="email" type="email" placeholder="you@example.com" className="h-12 rounded-xl border-border/70 focus-visible:ring-primary/30" {...register("email")} />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" placeholder="Min 6 characters" {...register("password")} />
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+            <Input id="password" type="password" placeholder="Min 6 characters" className="h-12 rounded-xl border-border/70 focus-visible:ring-primary/30" {...register("password")} />
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input id="confirmPassword" type="password" placeholder="••••••••" {...register("confirmPassword")} />
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
+            <Input id="confirmPassword" type="password" placeholder="••••••••" className="h-12 rounded-xl border-border/70 focus-visible:ring-primary/30" {...register("confirmPassword")} />
             {errors.confirmPassword && (
               <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>
             )}
           </div>
 
-          <Button type="submit" className="w-full h-11" disabled={isSubmitting}>
+          <Button type="submit" className="w-full h-12 rounded-xl shadow-sm hover:shadow-md transition-all" disabled={isSubmitting}>
             {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {isSubmitting ? "Creating account…" : "Create Account"}
           </Button>
         </form>
 
-        <p className="text-center text-sm text-muted-foreground mt-6">
+        <p className="text-center text-sm text-muted-foreground mt-7">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary font-medium hover:underline">
+          <Link href="/login" className="text-primary font-semibold hover:underline underline-offset-4">
             Sign in
           </Link>
         </p>

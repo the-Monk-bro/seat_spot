@@ -35,10 +35,10 @@ export default async function CustomerDashboard() {
   const pastParsed: IReservation[] = JSON.parse(JSON.stringify(past));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h1 className="text-2xl font-bold">Welcome, {session!.user.name?.split(" ")[0]}! 👋</h1>
-        <p className="text-muted-foreground mt-1">Manage your restaurant reservations.</p>
+        <h1 className="font-playfair text-3xl font-bold text-foreground">Welcome, {session!.user.name?.split(" ")[0]}! 👋</h1>
+        <p className="text-muted-foreground mt-1.5">Manage your restaurant reservations.</p>
       </div>
 
       {/* Upcoming */}
@@ -53,11 +53,13 @@ export default async function CustomerDashboard() {
         </div>
 
         {upcomingParsed.length === 0 ? (
-          <div className="rounded-xl border bg-white p-8 text-center">
-            <Calendar className="h-10 w-10 mx-auto text-muted-foreground/40 mb-3" />
-            <p className="font-medium mb-1">No upcoming reservations</p>
-            <p className="text-sm text-muted-foreground mb-4">Find a restaurant and book your next dining experience</p>
-            <Button asChild size="sm">
+          <div className="rounded-2xl border border-border/60 bg-white p-10 text-center shadow-sm">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/8 border border-primary/15">
+              <Calendar className="h-7 w-7 text-primary/60" />
+            </div>
+            <p className="font-playfair font-semibold text-lg mb-1">No upcoming reservations</p>
+            <p className="text-sm text-muted-foreground mb-5">Find a restaurant and book your next dining experience</p>
+            <Button asChild size="sm" className="rounded-full px-6">
               <Link href="/restaurants">Browse Restaurants</Link>
             </Button>
           </div>
@@ -67,10 +69,12 @@ export default async function CustomerDashboard() {
               const rest = r.restaurant as { name: string; city: string };
               const table = r.table as { number: number; capacity: number };
               return (
-                <div key={r._id} className="rounded-xl border bg-white p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:shadow-sm transition-shadow">
-                  <div className="space-y-1">
+                <div key={r._id} className="rounded-2xl border border-border/60 bg-white overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:shadow-md transition-all duration-200">
+                  {/* Emerald accent bar */}
+                  <div className="hidden sm:block w-1 self-stretch bg-primary rounded-l-2xl shrink-0" />
+                  <div className="p-5 flex-1 space-y-1.5">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-semibold">{rest.name}</h3>
+                      <h3 className="font-semibold font-playfair">{rest.name}</h3>
                       <StatusBadge status={r.status} />
                     </div>
                     <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
@@ -89,15 +93,15 @@ export default async function CustomerDashboard() {
 
       {/* Quick links */}
       <section>
-        <h2 className="font-semibold text-lg mb-4">Quick Actions</h2>
+        <h2 className="font-playfair font-bold text-xl mb-5">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Link href="/restaurants" className="rounded-xl border bg-white p-5 hover:shadow-sm hover:border-primary/30 transition-all group">
-            <h3 className="font-semibold group-hover:text-primary transition-colors">Find a Restaurant</h3>
-            <p className="text-sm text-muted-foreground mt-1">Browse approved restaurants and make a reservation</p>
+          <Link href="/restaurants" className="rounded-2xl border border-border/60 bg-white p-6 hover:shadow-md hover:border-primary/30 transition-all duration-200 group">
+            <h3 className="font-semibold text-base group-hover:text-primary transition-colors">Find a Restaurant</h3>
+            <p className="text-sm text-muted-foreground mt-1.5">Browse approved restaurants and make a reservation</p>
           </Link>
-          <Link href="/customer/reservations" className="rounded-xl border bg-white p-5 hover:shadow-sm hover:border-primary/30 transition-all group">
-            <h3 className="font-semibold group-hover:text-primary transition-colors">Reservation History</h3>
-            <p className="text-sm text-muted-foreground mt-1">
+          <Link href="/customer/reservations" className="rounded-2xl border border-border/60 bg-white p-6 hover:shadow-md hover:border-primary/30 transition-all duration-200 group">
+            <h3 className="font-semibold text-base group-hover:text-primary transition-colors">Reservation History</h3>
+            <p className="text-sm text-muted-foreground mt-1.5">
               {pastParsed.length > 0 ? `${pastParsed.length} past reservation${pastParsed.length !== 1 ? "s" : ""}` : "No past reservations yet"}
             </p>
           </Link>

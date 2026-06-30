@@ -35,19 +35,19 @@ export default async function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Platform overview and management</p>
+        <h1 className="font-playfair text-3xl font-bold text-foreground">Admin Dashboard</h1>
+        <p className="text-muted-foreground mt-1.5">Platform overview and management</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {stats.map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl border bg-white p-5">
+          <div key={label} className="rounded-2xl border border-border/60 bg-white p-5 shadow-sm hover:shadow-md transition-shadow">
             <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl mb-3 ${color}`}>
               <Icon className="h-5 w-5" />
             </div>
-            <div className="text-2xl font-bold">{value}</div>
+            <div className="text-2xl font-bold font-playfair">{value}</div>
             <div className="text-xs text-muted-foreground mt-0.5">{label}</div>
           </div>
         ))}
@@ -71,17 +71,17 @@ export default async function AdminDashboard() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Link href="/admin/restaurants" className="group rounded-xl border bg-white p-5 hover:shadow-sm hover:border-primary/30 transition-all flex items-center justify-between">
+        <Link href="/admin/restaurants" className="group rounded-2xl border border-border/60 bg-white p-6 hover:shadow-md hover:border-primary/30 transition-all duration-200 flex items-center justify-between">
           <div>
             <h3 className="font-semibold group-hover:text-primary transition-colors">Manage Restaurants</h3>
-            <p className="text-sm text-muted-foreground mt-1">Approve or reject restaurant listings</p>
+            <p className="text-sm text-muted-foreground mt-1.5">Approve or reject restaurant listings</p>
           </div>
           <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
         </Link>
-        <Link href="/admin/users" className="group rounded-xl border bg-white p-5 hover:shadow-sm hover:border-primary/30 transition-all flex items-center justify-between">
+        <Link href="/admin/users" className="group rounded-2xl border border-border/60 bg-white p-6 hover:shadow-md hover:border-primary/30 transition-all duration-200 flex items-center justify-between">
           <div>
             <h3 className="font-semibold group-hover:text-primary transition-colors">Manage Users</h3>
-            <p className="text-sm text-muted-foreground mt-1">View all platform users and their roles</p>
+            <p className="text-sm text-muted-foreground mt-1.5">View all platform users and their roles</p>
           </div>
           <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
         </Link>
