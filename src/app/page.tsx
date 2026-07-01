@@ -147,10 +147,10 @@ export default async function HomePage() {
         {/* ── CTA ─────────────────────────────────────────────────────── */}
         <section className="py-24 bg-[#FAFAF8]">
           <div className="container mx-auto px-6">
-            <div className="rounded-3xl bg-gradient-to-br from-primary to-teal-800 px-10 py-16 text-center text-white relative overflow-hidden shadow-2xl shadow-primary/20">
+            <div className="rounded-3xl bg-gradient-to-br from-primary to-teal-800 px-6 py-16 md:px-10 text-center text-white relative overflow-hidden shadow-2xl shadow-primary/20">
               <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-white/8 blur-2xl" />
-              <div className="relative">
+              <div className="relative flex flex-col items-center">
                 <h2 className="font-playfair text-4xl md:text-5xl font-bold mb-4">Own a Restaurant?</h2>
                 <p className="text-white/75 mb-10 text-lg max-w-xl mx-auto leading-relaxed">
                   Join thousands of restaurants on SeatSpot. Manage tables, menus, and reservations all in one place.
@@ -159,7 +159,7 @@ export default async function HomePage() {
                   size="lg"
                   variant="secondary"
                   asChild
-                  className="rounded-full h-13 px-8 text-base font-semibold bg-white text-primary hover:bg-white/90 shadow-lg"
+                  className="rounded-full h-12 sm:h-13 px-6 sm:px-8 text-sm sm:text-base font-semibold bg-white text-primary hover:bg-white/90 shadow-lg"
                 >
                   <Link href="/register">List Your Restaurant Free<ArrowRight className="h-4 w-4 ml-2" /></Link>
                 </Button>
