@@ -14,7 +14,7 @@ export interface IMenuItemDocument extends Document {
 const menuItemSchema = new Schema<IMenuItemDocument>(
   {
     name: { type: String, required: true, trim: true },
-    description: { type: String, required: true },
+    description: { type: String, required: false },
     price: { type: Number, required: true, min: 0 },
     category: { type: String, required: true, trim: true },
     image: { type: String },
@@ -27,6 +27,10 @@ const menuItemSchema = new Schema<IMenuItemDocument>(
   },
   { timestamps: true }
 );
+
+if (process.env.NODE_ENV === "development" && mongoose.models.MenuItem) {
+  delete (mongoose.models as Record<string, unknown>).MenuItem;
+}
 
 const MenuItem: Model<IMenuItemDocument> =
   mongoose.models.MenuItem ??

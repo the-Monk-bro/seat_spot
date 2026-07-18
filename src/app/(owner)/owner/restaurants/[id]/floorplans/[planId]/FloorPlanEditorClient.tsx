@@ -127,6 +127,7 @@ export default function FloorPlanEditorClient({ plan, restaurantId }: Props) {
   // Drag selection state
   const isDragging = useRef(false);
   const dragStart = useRef<{ row: number; col: number } | null>(null);
+  const dragMode = useRef<"select" | "deselect">("select");
   const [dragRect, setDragRect] = useState<{
     r1: number; c1: number; r2: number; c2: number
   } | null>(null);
@@ -164,28 +165,38 @@ export default function FloorPlanEditorClient({ plan, restaurantId }: Props) {
     });
   }, []);
 
-  const fillRect = useCallback((r1: number, c1: number, r2: number, c2: number) => {
-    const minR = Math.min(r1, r2);
-    const maxR = Math.max(r1, r2);
-    const minC = Math.min(c1, c2);
-    const maxC = Math.max(c1, c2);
-    setGrid((prev) => {
-      const next = prev.map((r) => [...r]);
-      for (let r = minR; r <= maxR; r++) {
-        for (let c = minC; c <= maxC; c++) {
-          if (next[r][c] === 0) next[r][c] = -1; // floor → unassigned seat
-          // Don't overwrite already-assigned table cells
+  const fillRect = useCallback(
+    (r1: number, c1: number, r2: number, c2: number, mode: "select" | "deselect") => {
+      const minR = Math.min(r1, r2);
+      const maxR = Math.max(r1, r2);
+      const minC = Math.min(c1, c2);
+      const maxC = Math.max(c1, c2);
+      setGrid((prev) => {
+        const next = prev.map((r) => [...r]);
+        for (let r = minR; r <= maxR; r++) {
+          for (let c = minC; c <= maxC; c++) {
+            if (mode === "select") {
+              if (next[r][c] === 0) next[r][c] = -1; // floor → unassigned seat
+              // Don't overwrite already-assigned table cells
+            } else {
+              // deselect: seat cells (unassigned or assigned) → floor
+              if (next[r][c] !== 0) next[r][c] = 0;
+            }
+          }
         }
-      }
-      return next;
-    });
-  }, []);
+        return next;
+      });
+    },
+    []
+  );
 
   // ── Mouse events on cells ───────────────────────────────────────────────
 
   function handleMouseDown(row: number, col: number) {
     isDragging.current = true;
     dragStart.current = { row, col };
+    // Determine mode based on starting cell: if it's a seat, drag will deselect
+    dragMode.current = grid[row][col] !== 0 ? "deselect" : "select";
     setDragRect({ r1: row, c1: col, r2: row, c2: col });
   }
 
@@ -203,23 +214,23 @@ export default function FloorPlanEditorClient({ plan, restaurantId }: Props) {
     if (!isDragging.current || !dragStart.current) return;
     isDragging.current = false;
     const start = dragStart.current;
+    const mode = dragMode.current;
     dragStart.current = null;
     setDragRect(null);
 
     if (start.row === row && start.col === col) {
-      // Single click
+      // Single click — toggle the cell
       toggleCell(row, col);
     } else {
-      // Drag — fill rectangle with seat cells
-      fillRect(start.row, start.col, row, col);
+      // Drag — fill or clear rectangle based on mode
+      fillRect(start.row, start.col, row, col, mode);
     }
   }
 
-  // ── Table assignment ─────────────────────────────────────────────────────
+  // ── Table assignment (double-click to open popup) ────────────────────────
 
-  function handleCellClick(row: number, col: number) {
-    // This is handled by mouseDown/Up; here we handle the "assign island" scenario
-    // if the cell is an unassigned seat
+  function handleCellDoubleClick(row: number, col: number) {
+    // Open the assign-island dialog only for unassigned seat cells
     if (grid[row][col] === -1) {
       const island = getIsland(grid, row, col).filter((c) => grid[c.row][c.col] === -1);
       if (island.length > 0) {
@@ -371,7 +382,7 @@ export default function FloorPlanEditorClient({ plan, restaurantId }: Props) {
           Assigned table
         </span>
         <span className="ml-auto italic">
-          Click to toggle · Drag to fill a rectangle with seats · Click assigned table cell to ungroup
+          Click/drag to select seats · Click/drag on seat to deselect · Double-click unassigned seat to assign table number
         </span>
       </div>
 
@@ -428,10 +439,8 @@ export default function FloorPlanEditorClient({ plan, restaurantId }: Props) {
                     style={{ width: CELL_PX, height: CELL_PX }}
                     onMouseDown={(e) => { e.preventDefault(); handleMouseDown(r, c); }}
                     onMouseEnter={() => handleMouseEnter(r, c)}
-                    onMouseUp={() => {
-                      handleMouseUp(r, c);
-                      if (grid[r][c] === -1) handleCellClick(r, c);
-                    }}
+                    onMouseUp={() => handleMouseUp(r, c)}
+                    onDoubleClick={() => handleCellDoubleClick(r, c)}
                     title={
                       v === 0 ? "Floor" :
                       v === -1 ? "Unassigned seat — click to assign" :

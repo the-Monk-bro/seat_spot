@@ -10,7 +10,7 @@ import type { ActionResult } from "@/types";
 
 const menuItemSchema = z.object({
   name: z.string().min(2, "Name is required"),
-  description: z.string().min(5, "Description is required"),
+  description: z.string().optional().default(""),
   price: z.coerce.number().min(0, "Price must be non-negative"),
   category: z.string().min(2, "Category is required"),
 });
@@ -54,8 +54,10 @@ export async function createMenuItem(
     revalidatePath(`/owner/restaurants/${restaurantId}`);
     revalidatePath(`/restaurants/${restaurantId}`);
     return { success: true, data: { id: item._id.toString() } };
-  } catch {
-    return { success: false, error: "Failed to create menu item." };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[createMenuItem]", msg);
+    return { success: false, error: msg };
   }
 }
 
@@ -93,8 +95,10 @@ export async function updateMenuItem(
     revalidatePath(`/owner/restaurants/${restaurantId}`);
     revalidatePath(`/restaurants/${restaurantId}`);
     return { success: true };
-  } catch {
-    return { success: false, error: "Failed to update menu item." };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[updateMenuItem]", msg);
+    return { success: false, error: msg };
   }
 }
 

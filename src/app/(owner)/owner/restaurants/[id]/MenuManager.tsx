@@ -23,10 +23,12 @@ interface MenuManagerProps {
 function MenuItemForm({
   restaurantId,
   item,
+  existingCategories,
   onSuccess,
 }: {
   restaurantId: string;
   item?: IMenuItem;
+  existingCategories: string[];
   onSuccess: () => void;
 }) {
   const [submitting, setSubmitting] = useState(false);
@@ -62,8 +64,8 @@ function MenuItemForm({
         <Input id="mi-name" name="name" placeholder="Butter Chicken" defaultValue={item?.name} required />
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="mi-desc">Description</Label>
-        <Textarea id="mi-desc" name="description" placeholder="Describe the dish…" defaultValue={item?.description} required rows={2} />
+        <Label htmlFor="mi-desc">Description <span className="text-muted-foreground font-normal">(optional)</span></Label>
+        <Textarea id="mi-desc" name="description" placeholder="Describe the dish…" defaultValue={item?.description} rows={2} />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
@@ -72,7 +74,22 @@ function MenuItemForm({
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="mi-cat">Category</Label>
-          <Input id="mi-cat" name="category" placeholder="Starters, Main…" defaultValue={item?.category} required />
+          <Input
+            id="mi-cat"
+            name="category"
+            placeholder="Starters, Main…"
+            defaultValue={item?.category}
+            list="mi-cat-list"
+            autoComplete="off"
+            required
+          />
+          {existingCategories.length > 0 && (
+            <datalist id="mi-cat-list">
+              {existingCategories.map((cat) => (
+                <option key={cat} value={cat} />
+              ))}
+            </datalist>
+          )}
         </div>
       </div>
       <Button type="submit" className="w-full" disabled={submitting}>
@@ -88,6 +105,11 @@ export function MenuManager({ items: initial, restaurantId }: MenuManagerProps) 
   const [addOpen, setAddOpen] = useState(false);
   const [editItem, setEditItem] = useState<IMenuItem | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+
+  // Derive unique sorted list of existing categories for the datalist
+  const existingCategories = Array.from(
+    new Set(initial.map((i) => i.category).filter(Boolean))
+  ).sort();
 
   async function handleDelete(id: string) {
     setDeleting(id);
@@ -120,7 +142,7 @@ export function MenuManager({ items: initial, restaurantId }: MenuManagerProps) 
           </DialogTrigger>
           <DialogContent className="max-h-[90vh] overflow-y-auto">
             <DialogHeader><DialogTitle>Add Menu Item</DialogTitle></DialogHeader>
-            <MenuItemForm restaurantId={restaurantId} onSuccess={() => { setAddOpen(false); router.refresh(); }} />
+            <MenuItemForm restaurantId={restaurantId} existingCategories={existingCategories} onSuccess={() => { setAddOpen(false); router.refresh(); }} />
           </DialogContent>
         </Dialog>
       </div>
@@ -161,6 +183,7 @@ export function MenuManager({ items: initial, restaurantId }: MenuManagerProps) 
                           <MenuItemForm
                             restaurantId={restaurantId}
                             item={item}
+                            existingCategories={existingCategories}
                             onSuccess={() => { setEditItem(null); router.refresh(); }}
                           />
                         </DialogContent>
