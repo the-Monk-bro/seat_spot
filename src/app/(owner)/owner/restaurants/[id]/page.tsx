@@ -4,13 +4,13 @@ import Image from "next/image";
 import { MapPin, Phone, UtensilsCrossed } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { StatusBadge } from "@/components/StatusBadge";
-import { TableManager } from "./TableManager";
+import { FloorPlanManager } from "./FloorPlanManager";
 import { MenuManager } from "./MenuManager";
 import { connectDB } from "@/lib/mongoose";
 import Restaurant from "@/models/Restaurant";
-import Table from "@/models/Table";
+import FloorPlan from "@/models/FloorPlan";
 import MenuItem from "@/models/MenuItem";
-import type { IRestaurant, ITable, IMenuItem } from "@/types";
+import type { IRestaurant, IFloorPlan, IMenuItem } from "@/types";
 import type { Metadata } from "next";
 
 interface Props { params: Promise<{ id: string }> }
@@ -27,16 +27,16 @@ export default async function OwnerRestaurantDetailPage({ params }: Props) {
   const session = await auth();
   await connectDB();
 
-  const [restaurantDoc, tablesDoc, menuItemsDoc] = await Promise.all([
+  const [restaurantDoc, floorPlanDocs, menuItemsDoc] = await Promise.all([
     Restaurant.findOne({ _id: id, owner: session!.user.id }).lean(),
-    Table.find({ restaurant: id }).sort({ number: 1 }).lean(),
+    FloorPlan.find({ restaurant: id }).sort({ createdAt: 1 }).lean(),
     MenuItem.find({ restaurant: id }).sort({ category: 1, name: 1 }).lean(),
   ]);
 
   if (!restaurantDoc) notFound();
 
   const restaurant: IRestaurant = JSON.parse(JSON.stringify(restaurantDoc));
-  const tables: ITable[] = JSON.parse(JSON.stringify(tablesDoc));
+  const floorPlans: IFloorPlan[] = JSON.parse(JSON.stringify(floorPlanDocs));
   const menuItems: IMenuItem[] = JSON.parse(JSON.stringify(menuItemsDoc));
 
   return (
@@ -73,8 +73,8 @@ export default async function OwnerRestaurantDetailPage({ params }: Props) {
 
       <Separator />
 
-      {/* Tables */}
-      <TableManager tables={tables} restaurantId={restaurant._id} />
+      {/* Floor Plans */}
+      <FloorPlanManager floorPlans={floorPlans} restaurantId={restaurant._id} />
 
       <Separator />
 

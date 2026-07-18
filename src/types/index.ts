@@ -37,6 +37,7 @@ export interface ITable {
   number: number;
   capacity: number;
   restaurant: string | IRestaurant;
+  floorPlanId?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -72,4 +73,43 @@ export interface ActionResult<T = void> {
   success: boolean;
   data?: T;
   error?: string;
+}
+
+// ─── Floor Plan types ─────────────────────────────────────────────────────────
+
+export interface IFloorPlanCell {
+  row: number;
+  col: number;
+}
+
+/** A table group within a floor plan (as stored in DB) */
+export interface IFloorPlanTable {
+  tableNumber: number;
+  tableDocId: string; // references a thin Table document
+  cells: IFloorPlanCell[];
+}
+
+/** Floor plan with optional `available` field added by the API */
+export interface IFloorPlanTableWithAvailability extends IFloorPlanTable {
+  available: boolean;
+}
+
+export interface IFloorPlan {
+  _id: string;
+  restaurant: string;
+  name: string;
+  rows: number;
+  cols: number;
+  northLabel: string;
+  southLabel: string;
+  eastLabel: string;
+  westLabel: string;
+  tables: IFloorPlanTable[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Floor plan as returned by the availability API (tables include `available`) */
+export interface IFloorPlanWithAvailability extends Omit<IFloorPlan, "tables"> {
+  tables: IFloorPlanTableWithAvailability[];
 }

@@ -4,6 +4,8 @@ export interface ITableDocument extends Document {
   number: number;
   capacity: number;
   restaurant: Types.ObjectId;
+  /** Set when this Table belongs to a FloorPlan. Null for legacy standalone tables. */
+  floorPlanId: Types.ObjectId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,6 +18,11 @@ const tableSchema = new Schema<ITableDocument>(
       type: Schema.Types.ObjectId,
       ref: "Restaurant",
       required: true,
+    },
+    floorPlanId: {
+      type: Schema.Types.ObjectId,
+      ref: "FloorPlan",
+      default: null,
     },
   },
   { timestamps: true }

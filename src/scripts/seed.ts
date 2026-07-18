@@ -99,6 +99,7 @@ async function seed() {
     Table.deleteMany({}),
     MenuItem.deleteMany({}),
     Reservation.deleteMany({}),
+
   ]);
   console.log("🗑️  Cleared existing data");
 
@@ -180,28 +181,6 @@ async function seed() {
     ]);
   console.log("🏪 Created 5 restaurants");
 
-  // ── Tables ──────────────────────────────────────────────────────────────────
-  const tablesToInsert = [];
-
-  // Spice Garden — 5 tables
-  for (let i = 1; i <= 5; i++) {
-    tablesToInsert.push({ number: i, capacity: i <= 2 ? 2 : i <= 4 ? 4 : 6, restaurant: spiceGarden._id });
-  }
-  // Italia Viva — 4 tables
-  for (let i = 1; i <= 4; i++) {
-    tablesToInsert.push({ number: i, capacity: i <= 2 ? 2 : i <= 3 ? 4 : 8, restaurant: italiaViva._id });
-  }
-  // Sushi Tokyo — 4 tables
-  for (let i = 1; i <= 4; i++) {
-    tablesToInsert.push({ number: i, capacity: i <= 2 ? 2 : 4, restaurant: sushiTokyo._id });
-  }
-
-  const allTables = await Table.insertMany(tablesToInsert);
-  const sgTables = allTables.slice(0, 5);
-  const ivTables = allTables.slice(5, 9);
-  const stTables = allTables.slice(9, 13);
-  console.log("🪑 Created tables");
-
   // ── Menu Items ──────────────────────────────────────────────────────────────
   await MenuItem.insertMany([
     // Spice Garden
@@ -223,23 +202,6 @@ async function seed() {
   ]);
   console.log("🍽️  Created menu items");
 
-  // ── Reservations ────────────────────────────────────────────────────────────
-  const today = new Date();
-  const fmtDate = (d: Date) => d.toISOString().split("T")[0];
-  const addDays = (d: Date, n: number) => { const r = new Date(d); r.setDate(r.getDate() + n); return r; };
-
-  await Reservation.insertMany([
-    // Upcoming
-    { date: fmtDate(addDays(today, 1)), startTime: "19:00", endTime: "21:00", partySize: 2, status: "CONFIRMED", user: cust1._id, table: sgTables[0]._id, restaurant: spiceGarden._id },
-    { date: fmtDate(addDays(today, 3)), startTime: "20:00", endTime: "22:00", partySize: 4, status: "PENDING", user: cust2._id, table: sgTables[2]._id, restaurant: spiceGarden._id },
-    { date: fmtDate(addDays(today, 5)), startTime: "12:30", endTime: "14:00", partySize: 2, status: "CONFIRMED", user: cust3._id, table: ivTables[0]._id, restaurant: italiaViva._id },
-    { date: fmtDate(addDays(today, 7)), startTime: "19:30", endTime: "21:30", partySize: 2, status: "PENDING", user: cust4._id, table: stTables[0]._id, restaurant: sushiTokyo._id },
-    // Past
-    { date: fmtDate(addDays(today, -5)), startTime: "18:00", endTime: "20:00", partySize: 3, status: "CONFIRMED", user: cust1._id, table: ivTables[1]._id, restaurant: italiaViva._id },
-    { date: fmtDate(addDays(today, -10)), startTime: "13:00", endTime: "14:30", partySize: 2, status: "CONFIRMED", user: cust5._id, table: sgTables[1]._id, restaurant: spiceGarden._id },
-    { date: fmtDate(addDays(today, -2)), startTime: "20:00", endTime: "22:00", partySize: 4, status: "CANCELLED", user: cust2._id, table: stTables[2]._id, restaurant: sushiTokyo._id },
-  ]);
-  console.log("📅 Created reservations");
 
   console.log("\n✅ Seeding complete!");
   console.log("\n🔐 Test accounts (password: password123):");
